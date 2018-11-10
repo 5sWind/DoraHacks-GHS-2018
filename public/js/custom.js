@@ -215,28 +215,27 @@ function dosomething() {
           alert("余额不足");
           // 调用did接口生成新的did
         } else {
-            $.ajax({  
-               type: "GET",  
-               url: "http://18.179.20.67:8080/api/1/did",  
-               contentType: "application/json; charset=utf-8",
-               dataType: "json",  
-               success: function(resp){  
+            $.ajax({
+               type: "GET",
+               url: "http://18.179.20.67:8080/api/1/did",
+               success: function(resp){
+                 console.log(resp);
                  var privateKey = resp.privateKey;
                  var publicKey = resp.publicKey;
                  var did = resp.did;
                  alert(privateKey);
                  alert(publicKey);
                  alert(did);
-               },  
-               error: function(e){  
-                 alert('Error121212: ' + e);  
-               }  
+               },
+               error: function(e){
+                 alert('Error121212: ' + e);
+               }
              });
         }
 });
 
     } else {
-       alert("请登录metamask") 
+       alert("请登录metamask")
     }
 }
 
