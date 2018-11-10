@@ -8,7 +8,7 @@ body {
     overflow-x: hidden;
 }
 p {
-    
+
     font-size: 14px;
 }
 
@@ -17,7 +17,7 @@ p {
 .section-title {
     padding-top: 90px;
     padding-bottom: 50px;
-    
+
 }
 .section-title h2 {
     position: relative;
@@ -66,7 +66,7 @@ p {
     -moz-transition: all 1s;
     -o-transition: all 1s;
     -webkit-transition: all 1s;
-    
+
 }
 .navbar-default .navbar-nav > li > a:hover {
     color: #129CF3;
@@ -83,26 +83,26 @@ p {
     -o-transition: all 1s;
     -webkit-transition: all 1s;
 }
-.navbar-default .navbar-nav > .active>a, 
+.navbar-default .navbar-nav > .active>a,
 .navbar-default .navbar-nav > .active>a:hover,
 .navbar-default .navbar-nav > .active>a:focus {
     background-color: transparent;
     color: #129CF3;
-} 
+}
 
 
 
 /* =========== Header ============ */
 .header {
-    background-image: url("../images/header-bg.jpg");
+    background-image: url("../images/ip_copyright.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
+    background-position: 40% 50%;
     background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     -webkit-background-size: cover;
-    
+
 }
 .header-overlay {
     background-color: rgba(31, 31, 31, 0.75);
@@ -135,15 +135,15 @@ p {
 .btn-download:active,
 .btn-download:visited
 {
-    
     background: transparent;
-    border-color: #129CF3;
+    border-color: #FF5CF3;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 30px;
     padding-right: 30px;
     font-size: 19px;
     text-transform: uppercase;
+    color: #FFFFFF;
     border-radius: 3px;
     transition: all 1s;
     -webkit-transition: all 1s;
@@ -151,8 +151,8 @@ p {
      -o-transition: all 1s;
 }
 .btn-download:hover {
-    background-color: #129CF3;
-    color: #fff;    
+    background-color: #FF5CF3;
+    color: #fff;
 }
 .btn-tour,
 .btn-tour:focus,
@@ -168,7 +168,7 @@ p {
     -webkit-transition: all 1s;
     -moz-transition: all 1s;
      -o-transition: all 1s;
-    
+
 }
 .btn-tour:hover {
     color: #fff;
@@ -180,7 +180,7 @@ p {
 }
 
 .header-iphone img {
-    width: 100%;   
+    width: 100%;
 }
 
 /* ========= About Us ============= */
@@ -190,12 +190,12 @@ p {
 }
 
 .about-iphone img {
- margin-top: 8px;    
+ margin-top: 8px;
 }
 .choose-us-title {
     padding-bottom: 50px;
-    
-    
+
+
 }
 .choose-us-title h2 {
     text-transform: uppercase;
@@ -209,7 +209,7 @@ p {
     position: absolute;
     bottom: -12px;
     left: 0;
-    width: 70px; 
+    width: 70px;
     height: 1px;
     background-color: #129CF3;
 }
@@ -248,7 +248,7 @@ p {
 .choose-us-item p {
     color: #727272;
     font-size: 15px;
-} 
+}
 /* ========= Testimonials ============= */
 .testimonial {
     background-image: url("../images/testimonial-bg.jpg");
@@ -282,18 +282,18 @@ p {
     font-weight: 900;
     font-size: 30px;
     margin-top: 25px;
-    
+
 }
 .testimonial-caption h4 {
     color: #129CF3;
 }
 
 .testimonial-caption h4 span {
-    
+
     color: #D8D8D8;
     font-style: italic;
     font-weight: 300;
-    
+
 }
 
 .testimonial-caption p {
@@ -304,7 +304,7 @@ p {
 }
 /* ========= Features ============= */
 .features-inner-wrapper {
-    
+
     padding-top: 30px;
     padding-bottom: 70px;
 }
@@ -324,7 +324,7 @@ p {
     width: 90px;
     height: 90px;
     text-align: center;
-    
+
 }
 .left-feature-item h3 {
     text-transform: uppercase;
@@ -358,7 +358,7 @@ p {
     width: 90px;
     height: 90px;
     text-align: center;
-    
+
 }
 .right-feature-item h3 {
     text-transform: uppercase;
@@ -366,11 +366,11 @@ p {
     font-weight: 700;
     margin-bottom: 21px;
     color: #333;
-    
-    
+
+
 }
 .right-feature-item p {
- 
+
     color: #333;
     font-size: 16px;
     font-weight: 300;
@@ -391,7 +391,7 @@ p {
 .btn-pruchase-now,
 .btn-pruchase-now:active,
 .btn-pruchase-now:focus,
-.btn-pruchase-now:visited 
+.btn-pruchase-now:visited
 {
     background-color: #129CF3;
     border: 1px solid #129CF3;
@@ -403,8 +403,8 @@ p {
     -moz-transition: all 1s;
     -o-transition: all 1s;
     -webkit-transition: all 1s;
-    
-    
+
+
 }
 
 .btn-pruchase-now:hover {
@@ -456,7 +456,7 @@ p {
     width: 100%;
 }
 .available-on {
-    
+
     background-color: #1a1a1a;
     margin-top: -8px;
     position: relative;
@@ -465,7 +465,7 @@ p {
     padding-top: 75px;
 }
 .available-title h2 {
-    
+
     color: #fff;
     font-size: 30px;
 }
@@ -486,7 +486,7 @@ p {
     -moz-transition: all 1s;
     -o-transition: all 1s;
     -webkit-transition: all 1s;
-    
+
 }
 .available-on-item:hover {
     background-color: #121212;
@@ -545,7 +545,7 @@ p {
     -moz-transition: all 1s;
     -o-transition: all 1s;
     -webkit-transition: all 1s;
-    
+
 }
 #message {
     height: 117px;
@@ -555,7 +555,7 @@ p {
 .submit-btn:active,
 .submit-btn:focus,
 .submit-btn:visited {
-    
+
     background-color: transparent;
     border: 1px solid #129CF3;
     border-radius: 4px;
@@ -578,15 +578,15 @@ p {
 .social-icons {
     padding-top: 50px;
     padding-bottom: 70px;
-    
+
 }
 .social-icons ul {
     margin:0;
     padding: 0;
     text-align: center;
-    
+
 }
-.social-icons ul li { 
+.social-icons ul li {
     list-style: none;
     display: inline;
     padding-left: 10px;
@@ -606,14 +606,14 @@ p {
     -moz-transition: all 1s;
     -o-transition: all 1s;
     -webkit-transition: all 1s;
-    
+
 }
 .social-icons ul li a:hover {
-    
+
     background-color: #129CF3;
     border: 1px solid #129CF3;
     color: #fff;
-} 
+}
 .social-icons ul li a i {
     font-size: 20px;
 }
@@ -650,53 +650,3 @@ p {
     color: #fff;
     font-size: 25px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
