@@ -208,30 +208,58 @@ function dosomething() {
     var price = $("#price").val();
     var rate = $("#rate").val();
     var accountBalance;
+    var didPrivateKey;
+    var did;
     web3.eth.getBalance(userAccount, (error, balance) => {
             if (error) return;
     accountBalance= balance.c[0];
         if (accountBalance < price*(100000000)) {
           alert("余额不足");
-          // 调用did接口生成新的did
         } else {
+        // 调用did接口生成新的did
             $.ajax({
                type: "GET",
                url: "http://18.179.20.67:8080/api/1/did",
                success: function(resp){
-                 console.log(resp);
-                 var privateKey = resp.privateKey;
-                 var publicKey = resp.publicKey;
-                 var did = resp.did;
-                 alert(privateKey);
-                 alert(publicKey);
-                 alert(did);
+                 // console.log(resp);
+                 var jsonResult = JSON.parse(resp);
+                 didPrivateKey = jsonResult.result.privateKey;
+                 publicKey = jsonResult.result.publicKey;
+                 did = jsonResult.result.did;
+
                },
                error: function(e){
-                 alert('Error121212: ' + e);
+                 alert('出问题了' + e);
                }
              });
-        }
+
+            // setdidInfo
+            // var setDidInfoData = ;
+            $.ajax({
+               type: "POST",
+               url: "http://18.179.20.67:8080/api/1/setDidInfo",
+               contentType: 'application/json',
+               dataType:"json",
+               data:JSON.stringify({
+                      "privateKey": "4439D27F693591C17EF3358BA6DD8D2B0598F62C24959E9DB926C7B4730679D8",
+                      "settings": {
+                        "privateKey": "ACDD5F69072C3A9D4BE09FECCD1A2EDF95412AF343917C13398B3945ECDFE91B",
+                        "info": {
+                          "ACDD5F69072C3A9D4BE09FECCD1A2EDF95": {
+                            "child": 4000,
+                            "money": 10000,
+                            "history": ["hello","how","what"]
+                          }
+                        }
+                      }
+                    }),
+               success: function(resp){
+                 console.log(resp);
+               },
+               error: function(e){
+                 alert('出问题了' + e);
+               }
+             });        }
 });
 
     } else {
