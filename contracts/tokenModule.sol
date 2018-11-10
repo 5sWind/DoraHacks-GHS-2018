@@ -43,11 +43,32 @@ interface IERC20 {
 contract ERC20 is IERC20 {
     using SafeMath for uint256;
 
+    string public name;
+    string public symbol;
+    uint32 public decimals = 18;
+    uint256 public totalSupply;
+
     mapping (address => uint256) private _balances;
 
     mapping (address => mapping (address => uint256)) private _allowed;
 
     uint256 private _totalSupply;
+
+    /**
+     * Constructor function
+     *
+     * Initializes contract with initial supply tokens to the creator of the contract
+     */
+    constructor (
+        uint256 initialSupply,
+        string tokenName,
+        string tokenSymbol
+    ) public {
+        totalSupply = initialSupply * 10 ** uint256(decimals);  // Update total supply with the decimal amount
+        _balances[msg.sender] = totalSupply;                // Give the creator all initial tokens
+        name = tokenName;                                   // Set the name for display purposes
+        symbol = tokenSymbol;                               // Set the symbol for display purposes
+    }
 
     /**
     * @dev Total number of tokens in existence
