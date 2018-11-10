@@ -12,7 +12,7 @@ contract DigitalCopyright {
     // fill out your address
     address constant private IpOwner = 0x89428305344Fe5De0801EDF41C5632C1e0FA231C;
     address constant private IpBuyer = 0x4A1061Afb0aF7d9f6c2D545Ada068dA68052c060;
-    ERC20Interface constant private IERC20 = ERC20Interface(0xC1171f7d7326b9B6413D1df4C8ea9fFa3fBd4B83);
+    ERC20Interface constant private IERC20 = ERC20Interface(0x93c086674e90084eba27aa746113b67dfc9e6338);
 //==============================================================================
 //     _ _  _  |`. _     _ _ |_ | _  _  .
 //    (_(_)| |~|~|(_||_|| (_||_)|(/__\  .  (default settings)
