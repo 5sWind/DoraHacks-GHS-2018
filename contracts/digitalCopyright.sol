@@ -1,0 +1,289 @@
+pragma solidity ^0.4.24;
+
+/**
+ * @title IP digital copyright.
+ */
+//==============================================================================
+//     _    _  _ _|_ _  .
+//    (/_\/(/_| | | _\  .
+//==============================================================================
+contract digitalCopyright {
+    using SafeMath for *;
+
+    address constant private IpOwner = 0x0;
+    address constant private IpBuyer = 0x0;
+    ERC20Interface constant private IERC20 = ERC20Interface(0x0);
+//==============================================================================
+//     _ _  _  |`. _     _ _ |_ | _  _  .
+//    (_(_)| |~|~|(_||_|| (_||_)|(/__\  .  (default settings)
+//=================_|===========================================================
+    string constant public name = "IP Digital Copyright";
+    string constant public symbol = "IPDC";
+//==============================================================================
+//     _| _ _|_ _    _ _ _|_    _   .
+//    (_|(_| | (_|  _\(/_ | |_||_)  .  (data used to store game info that changes)
+//=============================|================================================
+
+//****************
+// LICENSE DATA 
+//****************
+    mapping (uint256 => Elastos.DIDs) public nIDxDIDs_; // (number => DID) returns did by buying index
+//****************
+// FEE DATA 
+//****************
+    IPDCdatasets.distributeFee public fees_; // define each stakeholder's fee;
+//==============================================================================
+//     _ _  _  __|_ _    __|_ _  _  .
+//    (_(_)| |_\ | | |_|(_ | (_)|   .  (initial data setup upon contract deploy)
+//==============================================================================
+    constructor ()
+        public
+    {
+        fees_ = IPDCdatasets.distributeFee(2, 8); // 90% to IP copyright buyer, 2% return to user, 8% give to IP owner
+    }
+//==============================================================================
+//     _ _  _  _|. |`. _  _ _  .
+//    | | |(_)(_||~|~|(/_| _\  .  (these are safety checks)
+//==============================================================================
+    /**
+     * @dev prevents contracts from interacting with fomo3dx 
+     */
+    modifier isHuman() {
+        address _addr = msg.sender;
+        uint256 _codeLength;
+        
+        assembly {_codeLength := extcodesize(_addr)}
+        require(_codeLength == 0, "sorry humans only");
+        _;
+    }
+//==============================================================================
+//     _    |_ |. _   |`    _  __|_. _  _  _  .
+//    |_)|_||_)||(_  ~|~|_|| |(_ | |(_)| |_\  .  (use these to interact with contract)
+//====|=========================================================================
+    function buyCopyright (uint256 _value, uint256 _rate)
+        public
+        payable
+        isHuman()
+    {
+        IpOwner.transfer(_value);
+        uint256 _assets = (_value.div(_rate)).mul(100);
+        mortgage(_assets);
+        updateDID(_did);
+    }
+
+    function mortgage (uint256 _assets)
+        private
+    {
+        IERC20.transferFrom(IpOwner, address(this), _assets);
+    }
+
+    function distribute (address _user)
+        private
+    {
+        uint256 _balance = IERC20.balanceOf(address(this));
+        if (_balance > 0)
+        {
+            uint256 _ownValue = (_balance.mul(fees_.owner)).div(100);
+            uint256 _retrValue = (_balance.mul(fees_.retr)).div(100);
+            _balance = _balance.sub(_ownValue.add(_retrValue));
+            // distribute to each stakeholder
+            IERC20.transferFrom(address(this), IpOwner, _ownValue);
+            IERC20.transferFrom(address(this), IpBuyer, _balance);
+            IERC20.transferFrom(address(this), _user, _retrValue);
+        }
+    }
+
+    function updateDID (string _did)
+        private
+    {
+
+    }
+
+    function buyGoods ()
+        private
+    {
+        distribute(msg.sender);
+    }
+}
+
+//==============================================================================
+//  . _ _|_ _  _ |` _  _ _  _  .
+//  || | | (/_| ~|~(_|(_(/__\  .
+//==============================================================================
+/**
+ * @title ERC20 interface
+ * @dev see https://github.com/ethereum/EIPs/issues/20
+ */
+interface ERC20Interface {
+  function totalSupply() external view returns (uint256);
+
+  function balanceOf(address who) external view returns (uint256);
+
+  function allowance(address owner, address spender)
+    external view returns (uint256);
+
+  function transfer(address to, uint256 value) external returns (bool);
+
+  function approve(address spender, uint256 value)
+    external returns (bool);
+
+  function transferFrom(address from, address to, uint256 value)
+    external returns (bool);
+
+  event Transfer(
+    address indexed from,
+    address indexed to,
+    uint256 value
+  );
+
+  event Approval(
+    address indexed owner,
+    address indexed spender,
+    uint256 value
+  );
+}
+
+//==============================================================================
+//   __|_ _    __|_ _  .
+//  _\ | | |_|(_ | _\  .
+//==============================================================================
+/**
+ * @dev the implementation of elastos DID
+ */
+library Elastos {
+    struct DIDs {
+        string fingerPrint;
+        uint256 timeStamp;
+    }
+}
+
+/**
+ * @dev datasets of IP digital right
+ */
+library IPDCdatasets {
+    struct distributeFee {
+        uint256 retr; // distribute 2% fee to buyer  
+        uint256 owner; // distribute 8% fee to ip right owner
+    }
+}
+
+/**
+ * @title SafeMath
+ * @dev Math operations with safety checks that throw on error
+ * change notes:  original SafeMath library from OpenZeppelin modified by Inventor
+ * - added sqrt
+ * - added sq
+ * - added pwr 
+ * - changed asserts to requires with error log outputs
+ */
+library SafeMath {
+    
+    /**
+    * @dev Multiplies two numbers, throws on overflow.
+    */
+    function mul(uint256 a, uint256 b) 
+        internal 
+        pure 
+        returns (uint256 c) 
+    {
+        if (a == 0) {
+            return 0;
+        }
+        c = a * b;
+        require(c / a == b, "SafeMath mul failed");
+        return c;
+    }
+
+    /**
+    * @dev Integer division of two numbers, truncating the quotient.
+    */
+    function div(uint256 a, uint256 b) internal pure returns (uint256) {
+        require(b > 0); // Solidity only automatically asserts when dividing by 0
+        uint256 c = a / b;
+        // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+        return c;
+    }
+    
+    /**
+    * @dev Subtracts two numbers, throws on overflow (i.e. if subtrahend is greater than minuend).
+    */
+    function sub(uint256 a, uint256 b)
+        internal
+        pure
+        returns (uint256) 
+    {
+        require(b <= a, "SafeMath sub failed");
+        return a - b;
+    }
+
+    /**
+    * @dev Adds two numbers, throws on overflow.
+    */
+    function add(uint256 a, uint256 b)
+        internal
+        pure
+        returns (uint256 c) 
+    {
+        c = a + b;
+        require(c >= a, "SafeMath add failed");
+        return c;
+    }
+    
+    /**
+     * @dev gives square root of given x.
+     */
+    function sqrt(uint256 x)
+        internal
+        pure
+        returns (uint256 y) 
+    {
+        uint256 z = ((add(x,1)) / 2);
+        y = x;
+        while (z < y) 
+        {
+            y = z;
+            z = ((add((x / z),z)) / 2);
+        }
+    }
+    
+    /**
+     * @dev gives square. multiplies x by x
+     */
+    function sq(uint256 x)
+        internal
+        pure
+        returns (uint256)
+    {
+        return (mul(x,x));
+    }
+    
+    /**
+     * @dev x to the power of y 
+     */
+    function pwr(uint256 x, uint256 y)
+        internal 
+        pure 
+        returns (uint256)
+    {
+        if (x==0)
+            return (0);
+        else if (y==0)
+            return (1);
+        else 
+        {
+            uint256 z = x;
+            for (uint256 i=1; i < y; i++)
+                z = mul(z,x);
+            return (z);
+        }
+    }
+
+    /**
+    * @dev Divides two numbers and returns the remainder (unsigned integer modulo),
+    * reverts when dividing by zero.
+    */
+    function mod(uint256 a, uint256 b) internal pure returns (uint256) {
+        require(b != 0);
+        return a % b;
+    }
+}
