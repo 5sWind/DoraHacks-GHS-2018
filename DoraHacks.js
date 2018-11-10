@@ -5,11 +5,21 @@ var url = require('url');
 var fs = require('fs');
 var path = require('path');
 var cp = require('child_process');
+var express = require('express');
 
 //创建服务
 var httpServer = http.createServer(processRequest);
 // 这是端口号
 var port = 80;
+
+httpServer.on('request',function(req,res){
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+  res.setHeader("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  res.setHeader("X-Powered-By",' 3.2.1');
+  res.setHeader("Content-Type", "text/html");
+});
 
 //指定一个监听的接口
 httpServer.listen(port, function() {
@@ -42,7 +52,7 @@ function processRequest (request, response) {
         "wmv": "video/x-ms-wmv",
         "xml": "text/xml"
     };
-    
+
     //request里面切出标识符字符串
     var requestUrl = request.url;
     //url模块的parse方法 接受一个字符串，返回一个url对象,切出来路径
