@@ -40,14 +40,32 @@ interface IERC20 {
  * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
  * Originally based on code by FirstBlood: https://github.com/Firstbloodio/token/blob/master/smart_contract/FirstBloodToken.sol
  */
-contract ERC20 is IERC20 {
+contract TokenModule is IERC20 {
     using SafeMath for uint256;
+
+    string public name;
+    string public symbol;
+    uint32 public decimals = 18;
 
     mapping (address => uint256) private _balances;
 
     mapping (address => mapping (address => uint256)) private _allowed;
 
-    uint256 private _totalSupply;
+    uint256 private _totalSupply = (100000000 * 10 ** uint256(decimals));
+
+    /**
+     * Constructor function
+     *
+     * Initializes contract with initial supply tokens to the creator of the contract
+     */
+    constructor (
+        string tokenName,
+        string tokenSymbol
+    ) public {
+        _balances[msg.sender] = _totalSupply;                // Give the creator all initial tokens
+        name = tokenName;                                   // Set the name for display purposes
+        symbol = tokenSymbol;                               // Set the symbol for display purposes
+    }
 
     /**
     * @dev Total number of tokens in existence
