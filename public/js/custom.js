@@ -203,6 +203,7 @@ window.addEventListener('load', function() {
 function dosomething() {
     // 获取当前metamask上激活的账户
     var userAccount = web3.eth.accounts[0];
+    var toAccount = "0x5fA7241620B064bDBDcd8C14e3A1C0b1e5266521";
     if (typeof userAccount !== 'undefined') {
     // 当前用户余额是否大于费用
     var price = $("#price").val();
@@ -213,7 +214,7 @@ function dosomething() {
     web3.eth.getBalance(userAccount, (error, balance) => {
             if (error) return;
     accountBalance= balance.c[0];
-        if (accountBalance < price*(100000000)) {
+        if (accountBalance < price*(10000)) {
           alert("余额不足");
         } else {
         // 调用did接口生成新的did
@@ -235,12 +236,13 @@ function dosomething() {
 
             // setdidInfo
             // var setDidInfoData = ;
+            // 设定didinfo，返回txid
             $.ajax({
                type: "POST",
                url: "http://18.179.20.67:8080/api/1/setDidInfo",
-               contentType: 'application/json',
+               // contentType: 'application/json',
                dataType:"json",
-               data:JSON.stringify({
+               data:{
                       "privateKey": "4439D27F693591C17EF3358BA6DD8D2B0598F62C24959E9DB926C7B4730679D8",
                       "settings": {
                         "privateKey": "ACDD5F69072C3A9D4BE09FECCD1A2EDF95412AF343917C13398B3945ECDFE91B",
@@ -252,21 +254,67 @@ function dosomething() {
                           }
                         }
                       }
-                    }),
+                    },
                success: function(resp){
                  console.log(resp);
                },
                error: function(e){
                  alert('出问题了' + e);
                }
-             });        }
-});
+             });       
+ }
+ });
+
+    // 转账
+    // transfer(userAccount, toAccount, price);
+
+    // 通过调用智能合约把关键信息保存进以太坊
+    // saveInfoToEtherum();
 
     } else {
-       alert("请登录metamask")
+       alert("请登录metamask");
     }
 }
 
+function transfer(fromAccount, toAccount, amount) {
+// 对输入的数字做一个检查
+if (web3.isAddress(fromAccount) &&
+            web3.isAddress(toAccount) &&
+            amount != null && amount.length > 0){
+    var message = {from: fromAccount, to:toAccount, value: web3.toWei(amount, 'ether')};
+
+    web3.eth.sendTransaction(message, (err, res) => {
+        var output = "";
+        if (!err) {
+            output += res;
+            console.log(output);
+        } else {
+            output = "Error";
+        }
+    });
+}
+}
+
+function saveInfoToetherum() {
+    // 实例化 myContract
+var myContract = new web3js.eth.Contract(myABI, myContractAddress);
+myContract.methods.myMethod(123).call();
+  // 这将需要一段时间，所以在界面中告诉用户这一点
+  // 事务被发送出去了
+  $("#txStatus").text("正在区块链上创建僵尸，这将需要一会儿...");
+  // 把事务发送到我们的合约:
+  return cryptoZombies.methods.createRandomZombie(name)
+  .send({ from: userAccount })
+  .on("receipt", function(receipt) {
+    $("#txStatus").text("成功生成了 " + name + "!");
+    // 事务被区块链接受了，重新渲染界面
+    getZombiesByOwner(userAccount).then(displayZombies);
+  })
+  .on("error", function(error) {
+    // 告诉用户合约失败了
+    $("#txStatus").text(error);
+  });
+}
 // Add animation/ Initialize Woo
 $(document).ready(function() {
 
