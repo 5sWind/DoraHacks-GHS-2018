@@ -183,36 +183,62 @@ $(document).ready(function() {
     });
 
     $("#buy-ip-copyright").click(function() {
-        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        web3js
-
+        dosomething();
     });
 });
 
-var cryptoZombies;
-
-function startApp() {
-  var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS";
-  cryptoZombies = new web3js.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
-}
-
-function getZombieDetails(id) {
-  return cryptoZombies.methods.zombies(id).call()
-}
 
 window.addEventListener('load', function() {
   // 检查web3是否已经注入到(Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
     // 使用 Mist/MetaMask 的提供者
     console.log("web3 new Instance");
-    web3js = new Web3(web3.currentProvider);
+    web3 = new Web3(web3.currentProvider);
   } else {
     alert("安装 MetaMask");
   }
 
-  // Now you can start your app & access web3 freely:
-  startApp();
 })
+
+function dosomething() {
+    // 获取当前metamask上激活的账户
+    var userAccount = web3.eth.accounts[0];
+    if (typeof userAccount !== 'undefined') {
+    // 当前用户余额是否大于费用
+    var price = $("#price").val();
+    var rate = $("#rate").val();
+    var accountBalance;
+    web3.eth.getBalance(userAccount, (error, balance) => {
+            if (error) return;
+    accountBalance= balance.c[0];
+        if (accountBalance < price*(100000000)) {
+          alert("余额不足");
+          // 调用did接口生成新的did
+        } else {
+            $.ajax({  
+               type: "GET",  
+               url: "http://18.179.20.67:8080/api/1/did",  
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",  
+               success: function(resp){  
+                 var privateKey = resp.privateKey;
+                 var publicKey = resp.publicKey;
+                 var did = resp.did;
+                 alert(privateKey);
+                 alert(publicKey);
+                 alert(did);
+               },  
+               error: function(e){  
+                 alert('Error121212: ' + e);  
+               }  
+             });
+        }
+});
+
+    } else {
+       alert("请登录metamask") 
+    }
+}
 
 // Add animation/ Initialize Woo
 $(document).ready(function() {
