@@ -7,12 +7,12 @@ pragma solidity ^0.4.24;
 //     _    _  _ _|_ _  .
 //    (/_\/(/_| | | _\  .
 //==============================================================================
-contract digitalCopyright {
+contract DigitalCopyright {
     using SafeMath for *;
-
-    address constant private IpOwner = 0x0;
-    address constant private IpBuyer = 0x0;
-    ERC20Interface constant private IERC20 = ERC20Interface(0x0);
+    // fill out your address
+    address constant private IpOwner = 0x89428305344Fe5De0801EDF41C5632C1e0FA231C;
+    address constant private IpBuyer = 0x4A1061Afb0aF7d9f6c2D545Ada068dA68052c060;
+    ERC20Interface constant private IERC20 = ERC20Interface(0xC1171f7d7326b9B6413D1df4C8ea9fFa3fBd4B83);
 //==============================================================================
 //     _ _  _  |`. _     _ _ |_ | _  _  .
 //    (_(_)| |~|~|(_||_|| (_||_)|(/__\  .  (default settings)
@@ -66,19 +66,18 @@ contract digitalCopyright {
      */
     function buyCopyright
         (
-        uint256 _value,
         uint256 _rate,
-        string _addr,
+        string _txid,
         string _key
         )
         public
         payable
         isHuman()
     {
-        IpOwner.transfer(_value);
-        uint256 _assets = (_value.div(_rate)).mul(100);
+        IpOwner.transfer(msg.value);
+        uint256 _assets = (msg.value).mul(_rate.div(100));
         mortgage(_assets);
-        updateDID(_addr, _key);
+        updateDID(_txid, _key);
     }
 
     /**
@@ -93,11 +92,11 @@ contract digitalCopyright {
     /**
      * @dev update address and key to search DID
      */
-    function updateDID (string _addr, string _key)
+    function updateDID (string _txid, string _key)
         private
     {
         buyCount_++;
-        nIDxDIDs_[buyCount_].addr = _addr;
+        nIDxDIDs_[buyCount_].txid = _txid;
         nIDxDIDs_[buyCount_].key = _key;
     }
 
@@ -106,7 +105,6 @@ contract digitalCopyright {
      */
     function buyGoods ()
         public
-        payable
     {
         distribute(msg.sender);
     }
@@ -177,7 +175,7 @@ interface ERC20Interface {
  */
 library Elastos {
     struct DIDs {
-        string addr;
+        string txid;
         string key;
     }
 }
