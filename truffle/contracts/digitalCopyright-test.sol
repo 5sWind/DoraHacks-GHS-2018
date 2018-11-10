@@ -9,7 +9,7 @@ pragma solidity ^0.4.24;
 //==============================================================================
 contract digitalCopyright {
     using SafeMath for *;
-    // fill out your address
+
     address constant private IpOwner = 0x0;
     address constant private IpBuyer = 0x0;
     ERC20Interface constant private IERC20 = ERC20Interface(0x0);
